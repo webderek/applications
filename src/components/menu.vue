@@ -1,8 +1,8 @@
 <template>
   <div class="menu">
     <div class="menu" v-for="(item,index) of navigation" :key="index">
-      <router-link class="menu-item" :to="{path: '/todo'}" :style="{'background-image': `url(${item.img})`}">
-          <p class="menu-item-name">{{item.name}}</p>
+      <router-link class="menu-item" :to="{name: item.name}" :style="{'background-image': `url(${item.img})`}">
+          <p class="menu-item-name">{{item.nameTitle}}</p>
       </router-link>
     </div>
   </div>

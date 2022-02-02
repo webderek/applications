@@ -1,5 +1,5 @@
 <template>
-  <div id="main">
+  <div class="main">
 <Menu :navigation="navigation" />
   </div>
 </template>
@@ -7,17 +7,20 @@
 <script>
 import Menu from "@/components/menu";
 export default {
-  name: 'Main',
   components: {Menu},
   data() {
     return {
       navigation: [{
-        name: 'Todo List',
-        img: 'https://is2-ssl.mzstatic.com/image/thumb/Purple114/v4/3b/cb/44/3bcb4475-113b-8a2b-c470-b0638460fb58/source/512x512bb.jpg'
+        nameTitle: 'Todo List',
+        img: 'https://is2-ssl.mzstatic.com/image/thumb/Purple114/v4/3b/cb/44/3bcb4475-113b-8a2b-c470-b0638460fb58/source/512x512bb.jpg',
+        path: 'todo',
+        name: 'main'
       },
         {
-          name: 'Todo List',
-          img: 'https://is2-ssl.mzstatic.com/image/thumb/Purple114/v4/3b/cb/44/3bcb4475-113b-8a2b-c470-b0638460fb58/source/512x512bb.jpg'
+          nameTitle: 'Graphics',
+          img: 'https://canvasjs.com/wp-content/uploads/images/gallery/javascript-charts/overview/javascript-charts-graphs-index-data-label.png',
+          path: 'graphicss',
+          name: 'graphics'
         }
       ]
     }

@@ -1,12 +1,18 @@
 import VueRouter from 'vue-router'
-import MainPage from '../pages/mainPage'
+import mainPage from '@/pages/mainPage'
+import Graphics from "@/pages/graphics";
 export  default new VueRouter({
     mode:'history',
     routes: [
         {
             path:'/',
-            component:MainPage,
-            props: true
+            name: 'main',
+            component:mainPage,
+        },
+        {
+            path: '/graphics',
+            name: 'graphics',
+            component:Graphics,
         },
     ]
 })
