@@ -5,7 +5,8 @@
         qwes
       </div>
       <div class="card-actions">
-        <Edit />
+        <components is="Edit">
+        </components>
       </div>
     </div>
   </div>
@@ -22,20 +23,16 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .wrap {
   width: 100%;
   max-width: 300px;
-  background-color: grey;
-  background-image: url("/src/assets/edit.svg?data");
 }
 .card {
   box-sizing: border-box;
   background-color: white;
   text-align: left;
-  background-image: url("/static/img-partials/header.jpeg");
-  background-color: #cccccc;
-  height: 500px;
+  //height: 500px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
