@@ -1,0 +1,13 @@
+{
+  "submenu": [
+    {
+      "list": [
+        {
+          "name": "Delete",
+          "visible": true,
+          "src": "@/../static/img-partials/delete.svg"
+        }
+      ]
+    }
+  ]
+}

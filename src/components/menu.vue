@@ -15,7 +15,6 @@ export default {
     navigation: Array
   },
   created() {
-    console.log( this.navigation[0].name)
   }
 }
 </script>

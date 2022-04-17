@@ -1,6 +1,7 @@
 <template>
   <div class="category">
     <div class="category-content">
+      <div class="category-content-main">
       <textarea @keydown.enter.prevent="focusOut($event)"
                 @change="saveTitle()"
                 rows="1"
@@ -8,66 +9,100 @@
                 class="category-content-title"
                 v-model="title" >
       </textarea>
-      <p class="category-content-count">{{count}} cards</p>
+      <p class="category-content-count" >{{getCardLength}} cards</p>
+      </div>
+      <Menu :category="category"></Menu>
     </div>
-    <div class="category-control">
-      <a @click="count += 1" class="category-control-add">
+    <div class="category-cards">
+      <transition-group name="list" tag="div">
+      <Card class="category-cards-card" v-for="(item, index) of getCard" :category="category" :card="item" :key="index"></Card>
+      </transition-group>
+    </div>
+      <div class="category-control">
+      <a @click="addCard()" class="category-control-add" >
         <components is="AddCard" class="category-control-add--img"></components>
         <span class="category-control-add-text">Add a card</span>
       </a>
-  </div>
+    </div>
   </div>
 </template>
 
 <script>
 import AddCard from "@/../static/img-partials/add-card.svg"
+import Menu from '@/components/todo/category/menu/menu.vue'
+import Card from '@/components/todo/card/card.vue'
+import {mapActions, mapGetters} from "vuex";
 export default {
   name:"Category",
-  components: {AddCard},
-  props: ["item"],
+  components: {AddCard, Menu, Card},
+  props: ["category"],
+  computed: {
+    ...mapGetters(["getCategories"]),
+    getCard () {
+      return this.category.card
+    },
+    getCardLength(){
+      return this.category?.card?.length || 0
+    }
+  },
   data() {
     return {
       categories: {},
-      test:  [{id:1},{id:2}],
       title: "default",
       count: 0,
-      id: []
     }
-    },
-  created() {
+  },
+
+  async created() {
   },
   mounted() {
-    //this.categories[this.item.id - 1].title ? this.title = this.categories[this.item.id - 1].title : this.title
-    const updateTitle = JSON.parse(localStorage.getItem("categories"))
-    //console.log(updateTitle)
-    updateTitle[this.item.id - 1].title ? this.title = updateTitle[this.item.id - 1].title : this.title
-    //console.log(this.categories, localStorage.getItem("categories"))
+    if(this.category.title) {
+      this.title = this.category.title
+    }
   },
   methods: {
+    ...mapActions(["saveCategory", "saveCard"]),
     focusOut(e) {
       e.target.blur()
     },
+    deleteCategory(){
+
+    },
+    async addCard() {
+      const currentData = {
+        categoryId: this.category.id,
+        card: {"title": "default", "id":0}
+      }
+      await this.$store.dispatch("saveCard", currentData)
+    },
     saveTitle(){
-      const i = JSON.parse(localStorage.getItem("categories"))
-      i[this.item.id - 1].title = this.title;
-      const parse = JSON.stringify(i)
-      localStorage.setItem("categories", parse)
-      this.categories = i
-      //console.log(i)
-      console.log("Before",this.test)
-      this.test[this.item.id - 1].id = this.title;
-      console.log("After",this.test)
-      // this.categories[this.item.id -1].title = this.title;
-      // console.log( this.categories[0].title)
-      // const parsed = JSON.stringify(this.categories)
-      // localStorage.setItem("categories", parsed)
-      // console.log(this.categories)
+      this.category.title = this.title
+      this.$store.dispatch("saveCategory", this.category)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+//.category-cards-card {
+//  transition: .3s ease-in;
+//}
+//  animation-false {
+//  opacity: 1;
+//    transform: translate(0,0);
+//
+//  }
+//.animation-true {
+//  transform: translate(200px,200px);
+//  opacity: 0;
+//}
+.list-enter-active, .list-card-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+  transform: translate(0, 100px);
+}
 .category {
   display: flex;
   flex-direction: column;
@@ -79,7 +114,10 @@ export default {
   text-align: left;
   padding: 10px;
   color: #5e6c84;
+  box-sizing: border-box;
   &-content {
+    display: flex;
+    justify-content: space-between;
     padding: 0px 8px;
     margin-bottom: 20px;
     &-title {
@@ -104,6 +142,7 @@ export default {
       display: flex;
       align-items: center;
       padding: 5px 8px;
+      margin-top: 10px;
       border-radius: 5px;
       &--img {
         fill: #5e6c84;
