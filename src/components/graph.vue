@@ -17,11 +17,9 @@
 export default {
 props:["optionsSize"],
   created() {
-    console.log(this.optionsSize[0].height * 2 + 'px')
   },
   computed: {
     getCountLines() {
-      console.log(this.optionsSize[0])
       return this.optionsSize[0].maxSize / this.optionsSize[0].division
     },
   }
